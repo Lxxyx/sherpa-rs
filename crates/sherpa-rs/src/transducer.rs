@@ -7,6 +7,27 @@ pub struct TransducerRecognizer {
     recognizer: *const sherpa_rs_sys::SherpaOnnxOfflineRecognizer,
 }
 
+fn resolve_decoding_method(hotwords_file: &str, decoding_method: &str) -> Result<String> {
+    let hotwords_file = hotwords_file.trim();
+    let decoding_method = decoding_method.trim();
+
+    let resolved = if decoding_method.is_empty() {
+        if hotwords_file.is_empty() {
+            "greedy_search".to_string()
+        } else {
+            "modified_beam_search".to_string()
+        }
+    } else {
+        decoding_method.to_string()
+    };
+
+    if !hotwords_file.is_empty() && resolved != "modified_beam_search" {
+        bail!("hotwords_file requires decoding_method=modified_beam_search (got '{resolved}')");
+    }
+
+    Ok(resolved)
+}
+
 #[derive(Debug, Clone)]
 pub struct TransducerConfig {
     pub decoder: String,
@@ -52,6 +73,9 @@ impl Default for TransducerConfig {
 
 impl TransducerRecognizer {
     pub fn new(config: TransducerConfig) -> Result<Self> {
+        let hotwords_file = config.hotwords_file.trim().to_string();
+        let decoding_method = resolve_decoding_method(&hotwords_file, &config.decoding_method)?;
+
         let recognizer = unsafe {
             let debug = config.debug.into();
             let provider = config.provider.unwrap_or(get_default_provider());
@@ -63,9 +87,9 @@ impl TransducerRecognizer {
             let model_type = cstring_from_str(&config.model_type);
             let modeling_unit = cstring_from_str(&config.modeling_unit);
             let bpe_vocab = cstring_from_str(&config.bpe_vocab);
-            let hotwords_file = cstring_from_str(&config.hotwords_file);
+            let hotwords_file = cstring_from_str(&hotwords_file);
             let tokens = cstring_from_str(&config.tokens);
-            let decoding_method = cstring_from_str(&config.decoding_method);
+            let decoding_method = cstring_from_str(&decoding_method);
 
             let offline_model_config = sherpa_rs_sys::SherpaOnnxOfflineModelConfig {
                 transducer: sherpa_rs_sys::SherpaOnnxOfflineTransducerModelConfig {
@@ -158,5 +182,42 @@ impl Drop for TransducerRecognizer {
         unsafe {
             sherpa_rs_sys::SherpaOnnxDestroyOfflineRecognizer(self.recognizer);
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::resolve_decoding_method;
+
+    #[test]
+    fn defaults_to_greedy_when_no_hotwords() {
+        let method = resolve_decoding_method("", "").unwrap();
+        assert_eq!(method, "greedy_search");
+    }
+
+    #[test]
+    fn defaults_to_modified_beam_when_hotwords_present() {
+        let method = resolve_decoding_method("hotwords.txt", "").unwrap();
+        assert_eq!(method, "modified_beam_search");
+    }
+
+    #[test]
+    fn errors_if_hotwords_present_but_greedy_specified() {
+        let err = resolve_decoding_method("hotwords.txt", "greedy_search").unwrap_err();
+        assert!(err
+            .to_string()
+            .contains("hotwords_file requires decoding_method=modified_beam_search"));
+    }
+
+    #[test]
+    fn accepts_modified_beam_when_hotwords_present() {
+        let method = resolve_decoding_method("hotwords.txt", "modified_beam_search").unwrap();
+        assert_eq!(method, "modified_beam_search");
+    }
+
+    #[test]
+    fn trims_inputs() {
+        let method = resolve_decoding_method("  hotwords.txt  ", "  ").unwrap();
+        assert_eq!(method, "modified_beam_search");
     }
 }
