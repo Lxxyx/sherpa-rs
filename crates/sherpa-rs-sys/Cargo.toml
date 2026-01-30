@@ -1,12 +1,12 @@
 [package]
-name = "sherpa-rs-sys"
+name = "lxxyx-sherpa-rs-sys"
 version = "0.6.8"
 edition = "2021"
-authors = ["thewh1teagle"]
-homepage = "https://github.com/thewh1teagle/sherpa-rs"
-repository = "https://github.com/thewh1teagle/sherpa-rs"
+authors = ["thewh1teagle", "Lxxyx"]
+homepage = "https://github.com/Lxxyx/sherpa-rs"
+repository = "https://github.com/Lxxyx/sherpa-rs"
 license = "MIT"
-description = "Rust bindings to https://github.com/k2-fsa/sherpa-onnx"
+description = "Rust bindings to https://github.com/k2-fsa/sherpa-onnx (fork with updates)"
 keywords = [
     "audio",
     "embeddings",

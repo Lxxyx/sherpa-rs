@@ -1,9 +1,11 @@
-# sherpa-rs
+# lxxyx-sherpa-rs
 
-[![Crates](https://img.shields.io/crates/v/sherpa-rs?logo=rust)](https://crates.io/crates/sherpa-rs/)
-[![License](https://img.shields.io/github/license/thewh1teagle/sherpa-rs?color=00aaaa&logo=license)](https://github.com/thewh1teagle/sherpa-rs/blob/main/LICENSE)
+[![Crates](https://img.shields.io/crates/v/lxxyx-sherpa-rs?logo=rust)](https://crates.io/crates/lxxyx-sherpa-rs/)
+[![License](https://img.shields.io/github/license/Lxxyx/sherpa-rs?color=00aaaa&logo=license)](https://github.com/Lxxyx/sherpa-rs/blob/main/LICENSE)
 
 Rust bindings to [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)
+
+> **Note**: This is a fork of [thewh1teagle/sherpa-rs](https://github.com/thewh1teagle/sherpa-rs) with updates to sherpa-onnx v1.12.23
 
 ## Features
 
@@ -28,7 +30,7 @@ Rust bindings to [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)
 ## Install
 
 ```console
-cargo add sherpa-rs
+cargo add lxxyx-sherpa-rs
 ```
 
 ## Build
@@ -46,7 +48,7 @@ Please see [BUILDING.md](BUILDING.md).
 
 ## Documentation
 
-For the documentation on `sherpa_rs`, please visit [docs.rs/sherpa_rs](https://docs.rs/sherpa-rs/latest/sherpa_rs).
+For the documentation on `lxxyx_sherpa_rs`, please visit [docs.rs/lxxyx-sherpa-rs](https://docs.rs/lxxyx-sherpa-rs/latest/lxxyx_sherpa_rs).
 
 For documentation on `sherpa-onnx`, refer to the [sherpa/intro.html](https://k2-fsa.github.io/sherpa/intro.html).
 

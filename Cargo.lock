@@ -477,6 +477,35 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a7a70ba024b9dc04c27ea2f0c0548feb474ec5c54bba33a7f72f873a39d07b24"
 
 [[package]]
+name = "lxxyx-sherpa-rs"
+version = "0.6.8"
+dependencies = [
+ "clap",
+ "eyre",
+ "hound",
+ "lxxyx-sherpa-rs-sys",
+ "tracing",
+]
+
+[[package]]
+name = "lxxyx-sherpa-rs-sys"
+version = "0.6.8"
+dependencies = [
+ "bindgen",
+ "bzip2",
+ "cmake",
+ "dirs",
+ "flate2",
+ "glob",
+ "lazy_static",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tar",
+ "ureq",
+]
+
+[[package]]
 name = "memchr"
 version = "2.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -727,35 +756,6 @@ dependencies = [
  "cfg-if",
  "cpufeatures",
  "digest",
-]
-
-[[package]]
-name = "sherpa-rs"
-version = "0.6.8"
-dependencies = [
- "clap",
- "eyre",
- "hound",
- "sherpa-rs-sys",
- "tracing",
-]
-
-[[package]]
-name = "sherpa-rs-sys"
-version = "0.6.8"
-dependencies = [
- "bindgen",
- "bzip2",
- "cmake",
- "dirs",
- "flate2",
- "glob",
- "lazy_static",
- "serde",
- "serde_json",
- "sha2",
- "tar",
- "ureq",
 ]
 
 [[package]]
